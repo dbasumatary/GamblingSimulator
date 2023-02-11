@@ -1,13 +1,14 @@
 package com.gamblingsimulator;
-/*Print days won or lost each month and by how much*/
+/*Print the luckiest and unluckiest day and by how much*/
 public class GamblingSimulator {
     public static final int EveryDayStake = 100;
     public static final int betEveryGame = 1;
-    public void monthlyWinOrLose(){
+    public void luckiestOrUnluckiest(){
         double upperMargin = 0.5 * EveryDayStake;                 // There is 50% margin after win or lose
         double lowerMargin = -0.5 * EveryDayStake;
-        int winDays = 0, lossDays = 0, drawDays = 0;              //Instantiate new variables
-        for (int i = 0; i < 20; i++){                                // The gambler plays for 20 days
+        int luckyDay = 0, unluckyDay = 0;                         //Instantiate new variables
+        double luckyDayAmount = 0, unluckyDayAmount = 0;
+        for (int i = 1; i < 31; i++){                                // The gambler plays for a month
             double dailyAmount = 0;
             int betPlayed = 0;                                   //Start initial with 0 and then to 100 bets
             /*The dailyAmount has to be in between the two margins of 50% and betPlayed has to be from 0 to 100*/
@@ -20,24 +21,21 @@ public class GamblingSimulator {
                     dailyAmount -= betEveryGame;
                 }
             }
-            if (dailyAmount > 0){                                            //Printing the daily amount for wins
-                winDays++;
-                System.out.println("Day "+ i + ": The amount won is $" + dailyAmount);
+            if (luckyDayAmount < dailyAmount){                         //Checking the condition for lucky days
+                luckyDayAmount = dailyAmount;
+                luckyDay = i;
             }
-            else if (dailyAmount == 0){                                     //Printing the daily amount for draw
-                drawDays++;
-                System.out.println("Day "+ i +": There is no net gain or loss ");
-            }
-            else if (dailyAmount < 0){                                      //Printing the daily amount for loss
-                lossDays++;
-                System.out.println("Day "+ i + ": The amount lost is $" + Math.abs(dailyAmount));
+            else if (unluckyDayAmount > dailyAmount){                  //Checking the condition for unlucky days
+                unluckyDayAmount = dailyAmount;
+                unluckyDay = i;
             }
         }
-        System.out.println("In this month I have won for " + winDays +" days, lost for " + lossDays + " days and drew for " + drawDays + " days");
+        System.out.println("The luckiest day for the gambler is day " + luckyDay + " of the month. He won $" + luckyDayAmount);
+        System.out.println("The unluckiest day for the gambler is day " + unluckyDay + " of the month. He lost $" + Math.abs(unluckyDayAmount));
     }
     public static void main(String[] args) {
         System.out.println("Welcome To Gambling Simulator Program");
-        GamblingSimulator simulation = new GamblingSimulator();                  //Creating a new object
-        simulation.monthlyWinOrLose();                                            //Calling the method (UC5)
+        GamblingSimulator simulation = new GamblingSimulator();                     //Creating a new object
+        simulation.luckiestOrUnluckiest();                                            //Calling the method (UC6)
     }
 }
